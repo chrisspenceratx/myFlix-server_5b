@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie API - Documentation</title>
+    <style>
+      td {
+        border-top: 1px solid gray;
+        border-right: 1px solid lightgray;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Movie API - Documentation</h1>
+
+    <h2>Objective</h2>
+
+    <p>
+      To build the server-side component of a "movies" web application. The web
+      application will provide users with access to information about different
+      movies, directors, and genres. Users will be able to sign up, update their
+      personal information, and create a list of their favorite movies.
+    </p>
+
+    <h2>API</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Endpoint</th>
+          <th>HTTP Method</th>
+          <th>Query Params</th>
+          <th>Request Body Format</th>
+          <th>Response Body Format</th>
+          <th>Example Request</th>
+          <th>Example Response</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Return a list of ALL movies to the user</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>-none-</td>
+          <td>-none-</td>
+          <td>JSON array of movie objects</td>
+          <td>/movies</td>
+          <td>
+            <pre>
+[
+  {
+    "Title": "Pulp Fiction",
+    "Genre": {
+      "Name": "Drama",
+      "Description": "The drama genre is defined by..."
+    },
+    "Description": "The lives of two mob hitmen,...",
+    "Director": {
+      "Name": "Quentin Tarantino",
+      "Bio": "Quentin Jerome Tarantino was born in...",
+      "Birthday": "March 27, 1963"
+    },
+    "ImagePath": "pulpfiction.png",
+    "Featured": true
+  },
+  ...
+]
+            </pre>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Return data (description, genre, director, image URL, whether it's
+            featured or not) about a single movie by title to the user
+          </td>
+          <td>/movies/:Title</td>
+          <td>GET</td>
+          <td>:Title - title of the movie to retrieve</td>
+          <td>-none-</td>
+          <td>JSON of a single movie object</td>
+          <td>/movies/Casablanca</td>
+          <td>
+            <pre>
+{
+  "Title": "Casablanca",
+  "Genre": {
+    "Name": "Romance",
+    "Description": "The romance genre is defined by..."
+  },
+  "Description": "A cynical expatriate American cafe owner...",
+  "Director": {
+    "Name": "Michael Curtiz",
+    "Bio": "Curtiz began acting in and then directing...",
+    "Birthday": "1886",
+    "Death": "1962"
+  },
+  "ImageUrl": "casablanca.png",
+  "Featured": false
+}
+            </pre>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Return data about a genre (description) by name/title (e.g.,
+            “Thriller”)
+          </td>
+          <td>/movies/genre/:Name</td>
+          <td>GET</td>
+          <td>:Name - name of the genre to retrieve</td>
+          <td>-none-</td>
+          <td>JSON of a single genre</td>
+          <td>/movies/genre/Drama</td>
+          <td>
+            <pre>
+{
+  "Name": "Drama",
+  "Description: "The drama genre is defined by conflict..."
+}
+            </pre>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            Return data about a director (bio, birth year, death year) by name
+          </td>
+          <td>/movies/directors/:Name</td>
+          <td>GET</td>
+          <td>:Name - the director's name</td>
+          <td>-none-</td>
+          <td>JSON object with director's details</td>
+          <td>/movies/director/Michael%20Curtiz</td>
+          <td>
+            <pre>
+{
+  "Name": "Michael Curtiz",
+  "Bio": "Curtiz began acting in and then directing films...",
+  "Birth": "1886", 
+  "Death": "1962"
+}
+            </pre>
+          </td>
+        </tr>
+        <tr>
+          <td>Allow new users to register</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>-none-</td>
+          <td>JSON Object with new user's name, password, email, birthday</td>
+          <td>JSON Object with new user's details</td>
+          <td>
+            /users
+            <pre>
+Request Body
+{
+  "Username": "NewUser", (required)
+  "Password": "password", (required)
+  "Email": "mail@email.com", (required)
+  "Birthday": "1900-01-01"
+}
+            </pre>
+          </td>
+          <td>
+            <pre>
+{
+  "_id": "08912a01-319e-437d-bcf5-6bbcb6fee06c",
+  "Username": "NewUser",
+  "Passwrod": "password",
+  "Email": "mail@email.com"
+  "Birthday": "1900-01-01"
+  "FavoriteMovies": []
+}
+            </pre>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Allow users to update their user info</td>
+          <td>/users/:Username</td>
+          <td>PUT</td>
+          <td>:Username - Username of user to be updated</td>
+          <td>JSON object with user's new name</td>
+          <td>JSON object with user's details</td>
+          <td>
+            /users/Joe
+            <pre>
+Request Body
+{
+  "Name": "JoeUpdated",
+  "Password": "newpassword",
+  "Email": "new@email.com",
+  "Birthday": "1900-01-01"
+}
+            </pre>
+          </td>
+          <td>
+            <pre>
+{
+  "_id": "08912a01-319e-437d-bcf5-6bbcb6fee06c",
+  "name": "JoeUpdated",
+  "Password": "newpassword",
+  "Email": "new@email.com",
+  "Birthday": "1900-01-01",
+  "FavoriteMovies": []
+}              
+            </pre>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Allow users to add a movie to their list of favorites (showing only
+            a text that a movie has been added)
+          </td>
+          <td>/users/:Username/movies/:MovieID</td>
+          <td>POST</td>
+          <td>
+            <p>:Username - user's Username</p>
+            <p>:MovieID - ObjectID of movie to add</p>
+          </td>
+          <td>-none-</td>
+          <td>JSON object with user's detail, including new favorite movie</td>
+          <td>/users/Joe/movies/649f103ab9afff41ddb545c0</td>
+          <td>
+            <pre>
+{
+  "_id": "08912a01-319e-437d-bcf5-6bbcb6fee06c",
+  "name": "Joe",
+  "Password": "password",
+  "Email": "mail@email.com",
+  "Birthday": "1900-01-01",
+  "FavoriteMovies": ["649f103ab9afff41ddb545c0"]
+}              
+            </pre>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Allow users to remove a movie from their list of favorites (showing
+            only a text that a movie has been removed)
+          </td>
+          <td>/users/:Username/movies/:MovieID</td>
+          <td>DELETE</td>
+          <td>
+            <p>:Username - user's Username</p>
+            <p>:MovieID - ObjectID of movie to remove</p>
+          </td>
+
+          <td>-none-</td>
+          <td>JSON object with user's detail, including favorite movie list</td>
+          <td>/users/Joe/movies/649f103ab9afff41ddb545c0</td>
+          <td>
+            <pre>
+{
+  "_id": "08912a01-319e-437d-bcf5-6bbcb6fee06c",
+  "name": "Joe",
+  "Password": "password",
+  "Email": "mail@email.com",
+  "Birthday": "1900-01-01",
+  "FavoriteMovies": ["649f103ab9afff41ddb545c0"]
+}              
+            </pre>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Allow existing users to deregister (showing only a text that a user
+            email has been removed)
+          </td>
+          <td>/users/:Username</td>
+          <td>DELETE</td>
+          <td>:Username - Username of user to remove</td>
+          <td>-none-</td>
+          <td>Text message that the user was removed.</td>
+          <td>/users/Joe</td>
+          <td>Joe has been removed.</td>
+        </tr>
+        <tr>
+          <td>Allow existing users to login</td>
+          <td>/login</td>
+          <td>POST</td>
+          <td>-none-</td>
+          <td>JSON object with user's username and password</td>
+          <td>JSON object with user's details, including JWT token</td>
+          <td>
+            /login
+            <pre>
+{
+  "Username": "username",
+  "Password": "password"
+}
+            </pre>
+          </td>
+          <td>
+            <pre>
+{
+  "user": {
+      "_id": "64adb796ae5d3737eaee5069",
+      "Username": "username",
+      "Password": "hashed password ...",
+      "Email": "username@email.com",
+      "Birthday": "1925-01-01T00:00:00.000Z",
+      "FavoriteMovies": [],
+      "__v": 0
+  },
+  "token": "..."
+}              
+            </pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
