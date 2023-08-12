@@ -46,8 +46,9 @@ app.get('/', (req, res) => {
 //READ all movies//
 app.get(
   '/movies',
+  // Now taking the comment away and making active for 3.55 //
   // Temporarily comment out jwt authorization for 3.4.  Now I did it with 2nd branch//
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => res.status(200).json(movies))
