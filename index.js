@@ -46,7 +46,8 @@ app.get('/', (req, res) => {
 //READ all movies//
 app.get(
   '/movies',
-  // Now taking the comment away and making active for 3.55 //
+  // Now taking the comment away and making active for 3.5 //
+  // Comment text given for another heroku push //
   // Temporarily comment out jwt authorization for 3.4.  Now I did it with 2nd branch//
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
