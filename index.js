@@ -50,7 +50,7 @@ app.get(
   // Now taking the comment away and making active for 3.5 //
   // Comment text given for another heroku push //
   // Temporarily comment out jwt authorization for 3.4.  Now I did it with 2nd branch//
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => res.status(200).json(movies))
@@ -64,7 +64,7 @@ app.get(
 // READ - with given title, returns a movie. //
 app.get(
   '/movies/:Title',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Title } = req.params;
 
@@ -86,7 +86,7 @@ app.get(
 // READ - Returns director information. //
 app.get(
   '/movies/director/:Name',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
 
@@ -107,7 +107,7 @@ app.get(
 
 // READ - Returns genre information. //
 app.get(
-  '/movies/genre/:Name',
+  // '/movies/genre/:Name',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
@@ -197,7 +197,7 @@ app.get(
 // GET - Get a user by Username
 app.get(
   '/users/:Username',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOne({ Username: req.params.Username })
       .then((user) => res.status(200).json(user))
@@ -228,7 +228,7 @@ app.put(
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
 
     // check the validation object if any errors //
