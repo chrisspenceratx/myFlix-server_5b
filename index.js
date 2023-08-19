@@ -6,23 +6,17 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 const cors = require('cors');
 const { check, validationResult } = require('express-validator');
-
 const Movies = Models.Movie;
 const Users = Models.User;
-
 // KEEP THESE HERE FOR EASY ACCESS WHEN MAKING LOCAL CHANGES //
 // mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 // mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect('mongodb+srv://myFlixDBadmin:xbowser1@myFlixDB.nop4cxy.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log("MongoDB Connected"));
-
 const app = express();
-
 app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
 let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'http://myflixfinder.herokuapp.com', 'https://myflixfinder.herokuapp.com', 'mongodb://localhost:27017/myflixfinderdb', 'mongodb://localhost:27017'];
 app.use(cors({
   origin: (origin, callback) => {
@@ -34,21 +28,18 @@ app.use(cors({
     return callback(null, true);
   }
 }));
-
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
-
 app.get('/', (req, res) => {
   res.send('Welcome to my movie app.');
 });
-
 //READ all movies//
 app.get(
   '/movies',
-  // Now taking the comment away and making active for 3.5 //
-  // Comment text given for another heroku push //
+  // Now taking the comment away and making active for 3.55 //
   // Temporarily comment out jwt authorization for 3.4.  Now I did it with 2nd branch//
+  // passport.authenticate('jwt', { session: false }),
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
@@ -59,14 +50,12 @@ app.get(
       });
   }
 );
-
 // READ - with given title, returns a movie. //
 app.get(
   '/movies/:Title',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Title } = req.params;
-
     Movies.findOne({ Title })
       .then((movie) => {
         if (movie) {
@@ -81,14 +70,12 @@ app.get(
       });
   }
 );
-
 // READ - Returns director information. //
 app.get(
   '/movies/director/:Name',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
-
     Movies.findOne({ 'Director.Name': Name })
       .then((movie) => {
         if (movie) {
@@ -103,14 +90,12 @@ app.get(
       });
   }
 );
-
 // READ - Returns genre information. //
 app.get(
   '/movies/genre/:Name',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
-
     Movies.findOne({ 'Genre.Name': Name })
       .then((movie) => {
         if (movie) {
@@ -125,7 +110,6 @@ app.get(
       });
   }
 );
-
 // CREATE - add a new user to the list of users
 //Expect JSON in the format below:
 // {
@@ -134,7 +118,6 @@ app.get(
 //   Email: String,
 //   Birthday: Date
 // }
-
 app.post(
   '/users',
   [
@@ -152,14 +135,12 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-
     const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
       .then((user) => {
         if (user) {
           return res.status(400).send(req.body.Username + ' already exists');
         }
-
         Users.create({
           Username: req.body.Username,
           Password: hashedPassword,
@@ -178,7 +159,6 @@ app.post(
       });
   }
 );
-
 // GET - Get all users
 app.get(
   '/users',
@@ -192,7 +172,6 @@ app.get(
       });
   }
 );
-
 // GET - Get a user by Username
 app.get(
   '/users/:Username',
@@ -206,7 +185,6 @@ app.get(
       });
   }
 );
-
 // UPDATE - Update a user's info, by Username
 /* Expect JSON in this format:
 {
@@ -215,7 +193,6 @@ app.get(
   Email: String, (required)
   Birthday: Date
 }*/
-
 app.put(
   '/users/:Username',
   [
@@ -229,13 +206,11 @@ app.put(
   ],
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-
     // check the validation object if any errors //
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-
     const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOneAndUpdate(
       { Username: req.params.Username },
@@ -256,14 +231,12 @@ app.put(
       });
   }
 );
-
 // CREATE - Add a new movie to user's favorites
 app.post(
   '/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username, MovieID } = req.params;
-
     Users.findOneAndUpdate(
       { Username },
       { $addToSet: { FavoriteMovies: MovieID } },
@@ -276,14 +249,12 @@ app.post(
       });
   }
 );
-
 // DELETE - Remove a movie from favorites from given user //
 app.delete(
   '/users/:Username/movies/:MovieID',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username, MovieID } = req.params;
-
     Users.findOneAndUpdate(
       { Username },
       { $pull: { FavoriteMovies: MovieID } },
@@ -296,14 +267,12 @@ app.delete(
       });
   }
 );
-
 // DELETE - Remove a user
 app.delete(
   '/users/:Username',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username } = req.params;
-
     Users.findOneAndRemove({ Username })
       .then((user) => {
         if (!user) {
@@ -318,13 +287,11 @@ app.delete(
       });
   }
 );
-
 // Handle any errors that might occur //
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('An error occurred on the server.');
 });
-
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
