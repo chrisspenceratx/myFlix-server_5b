@@ -12,8 +12,8 @@ const Users = Models.User;
 mongoose.set("strictQuery", false);
 // KEEP THESE HERE FOR EASY ACCESS WHEN MAKING LOCAL CHANGES //
 // mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-// mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect('mongodb+srv://myFlixDBadmin:xxxBowser111@myflixfinder.exdewrp.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log("MongoDB Connected"));
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb+srv://myFlixDBadmin:xxxBowser111@myflixfinder.exdewrp.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log("MongoDB Connected"));
 
 const app = express();
 app.use(morgan('common'));
