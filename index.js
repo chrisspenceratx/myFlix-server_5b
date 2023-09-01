@@ -11,20 +11,13 @@ const Users = Models.User;
 
 mongoose.set("strictQuery", false);
 // KEEP THESE HERE FOR EASY ACCESS WHEN MAKING LOCAL CHANGES //
-
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 // mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-// mongoose.connect('mongodb+srv://myFlixDBadmin:xxxBowser111@myflixfinder.exdewrp.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log("MongoDB Connected"));
-// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-let allowedOrigins = ['https://spencer-flix-c2b5a70a1e0d.herokuapp.com','http://localhost:8080', 'http://localhost:1234', 'https://spencer-flix-c2b5a70a1e0d.herokuapp.com/', 'http://myflixfinder.herokuapp.com', 'https://myflixfinder.herokuapp.com', 'mongodb://localhost:27017/myflixfinderdb', 'mongodb://localhost:27017'];
-
 
 // app.use(cors({
 //   origin: (origin, callback) => {
