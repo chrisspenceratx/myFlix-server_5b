@@ -11,16 +11,21 @@ const Users = Models.User;
 
 mongoose.set("strictQuery", false);
 // KEEP THESE HERE FOR EASY ACCESS WHEN MAKING LOCAL CHANGES //
+
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 // mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 // mongoose.connect('mongodb+srv://myFlixDBadmin:xxxBowser111@myflixfinder.exdewrp.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log("MongoDB Connected"));
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const app = express();
 app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 let allowedOrigins = ['https://spencer-flix-c2b5a70a1e0d.herokuapp.com','http://localhost:8080', 'http://localhost:1234', 'https://spencer-flix-c2b5a70a1e0d.herokuapp.com/', 'http://myflixfinder.herokuapp.com', 'https://myflixfinder.herokuapp.com', 'mongodb://localhost:27017/myflixfinderdb', 'mongodb://localhost:27017'];
+
+
 // app.use(cors({
 //   origin: (origin, callback) => {
 //     if(!origin) return callback(null, true);
@@ -31,6 +36,7 @@ let allowedOrigins = ['https://spencer-flix-c2b5a70a1e0d.herokuapp.com','http://
 //     return callback(null, true);
 //   }
 // }));
+
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
@@ -39,11 +45,7 @@ app.get('/', (req, res) => {
 });
 //READ all movies//
 app.get(
-  '/movies',
-  // Now taking the comment away and making active for 3.55 //
-  // Temporarily comment out jwt authorization for 3.4.  Now I did it with 2nd branch//
-  // passport.authenticate('jwt', { session: false }),
-  // passport.authenticate('jwt', { session: false }),
+
   (req, res) => {
     Movies.find()
       .then((movies) => res.status(200).json(movies))
@@ -56,7 +58,7 @@ app.get(
 // READ - with given title, returns a movie. //
 app.get(
   '/movies/:Title',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Title } = req.params;
     Movies.findOne({ Title })
@@ -76,7 +78,7 @@ app.get(
 // READ - Returns director information. //
 app.get(
   '/movies/director/:Name',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
     Movies.findOne({ 'Director.Name': Name })
@@ -95,7 +97,7 @@ app.get(
 );
 // READ - Returns genre information. //
 app.get(
-  '/movies/genre/:Name',
+  // '/movies/genre/:Name',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
@@ -178,7 +180,7 @@ app.get(
 // GET - Get a user by Username
 app.get(
   '/users/:Username',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOne({ Username: req.params.Username })
       .then((user) => res.status(200).json(user))
@@ -207,7 +209,7 @@ app.put(
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     // check the validation object if any errors //
     const errors = validationResult(req);
