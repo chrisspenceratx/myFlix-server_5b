@@ -20,7 +20,7 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://spencer-flix-c2b5a70a1e0d.herokuapp.com/', 'http://myflixfinder.herokuapp.com', 'https://myflixfinder.herokuapp.com', 'mongodb://localhost:27017/myflixfinderdb', 'mongodb://localhost:27017'];
+let allowedOrigins = ['*'];
 // app.use(cors({
 //   origin: (origin, callback) => {
 //     if(!origin) return callback(null, true);
