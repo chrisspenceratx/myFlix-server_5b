@@ -20,7 +20,10 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-let allowedOrigins = ['*'];
+
+app.use(cors({ origin: '*' }));
+
+// let allowedOrigins = ['*'];
 // app.use(cors({
 //   origin: (origin, callback) => {
 //     if(!origin) return callback(null, true);
