@@ -21,7 +21,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({ origin: '*' }));
+app.use(cors());
 
 // let allowedOrigins = ['*'];
 // app.use(cors({
@@ -34,6 +34,7 @@ app.use(cors({ origin: '*' }));
 //     return callback(null, true);
 //   }
 // }));
+
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
@@ -45,8 +46,7 @@ app.get(
   '/movies',
   // Now taking the comment away and making active for 3.55 //
   // Temporarily comment out jwt authorization for 3.4.  Now I did it with 2nd branch//
-  // passport.authenticate('jwt', { session: false }),
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => res.status(200).json(movies))
@@ -99,7 +99,7 @@ app.get(
 // READ - Returns genre information. //
 app.get(
   '/movies/genre/:Name',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
     Movies.findOne({ 'Genre.Name': Name })
@@ -181,7 +181,7 @@ app.get(
 // GET - Get a user by Username
 app.get(
   '/users/:Username',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOne({ Username: req.params.Username })
       .then((user) => res.status(200).json(user))
