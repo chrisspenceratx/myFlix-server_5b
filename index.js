@@ -26,7 +26,8 @@ const allowedOrigins = [
   'https://spencer-flix-c2b5a70a1e0d.herokuapp.com/',
   'http://localhost:1234',
   'mongodb://localhost:27017/myflixfinderdb',
-  'mongodb://localhost:27017'
+  'mongodb://localhost:27017',
+  'https://spencer-flix.netlify.app'
 ];
 
 app.use(
