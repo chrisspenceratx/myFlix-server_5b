@@ -27,7 +27,7 @@ const allowedOrigins = [
   'http://localhost:1234',
   'mongodb://localhost:27017/myflixfinderdb',
   'mongodb://localhost:27017',
-  'https://spencer-flix.netlify.app'
+  'https://spencer-flix.netlify.app/'
 ];
 
 app.use(
