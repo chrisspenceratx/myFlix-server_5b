@@ -11,8 +11,8 @@ const Users = Models.User;
 
 mongoose.set("strictQuery", false);
 // KEEP THESE HERE FOR EASY ACCESS WHEN MAKING LOCAL CHANGES //
-// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
 app.use(morgan('common'));
@@ -27,7 +27,7 @@ const allowedOrigins = [
   'http://localhost:1234',
   'mongodb://localhost:27017/myflixfinderdb',
   'mongodb://localhost:27017',
-  'https://spencer-flix.netlify.app/'
+  'https://spencer-flix.netlify.app'
 ];
 
 app.use(
@@ -56,7 +56,7 @@ app.get(
   '/movies',
   // Now taking the comment away and making active for 3.55 //
   // Temporarily comment out jwt authorization for 3.4.  Now I did it with 2nd branch//
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => res.status(200).json(movies))
@@ -69,7 +69,7 @@ app.get(
 // READ - with given title, returns a movie. //
 app.get(
   '/movies/:Title',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Title } = req.params;
     Movies.findOne({ Title })
@@ -89,7 +89,7 @@ app.get(
 // READ - Returns director information. //
 app.get(
   '/movies/director/:Name',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
     Movies.findOne({ 'Director.Name': Name })
@@ -220,7 +220,7 @@ app.put(
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     // check the validation object if any errors //
     const errors = validationResult(req);
@@ -250,7 +250,7 @@ app.put(
 // CREATE - Add a new movie to user's favorites
 app.post(
   '/users/:Username/movies/:MovieID',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username, MovieID } = req.params;
     Users.findOneAndUpdate(
@@ -268,7 +268,7 @@ app.post(
 // DELETE - Remove a movie from favorites from given user //
 app.delete(
   '/users/:Username/movies/:MovieID',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username, MovieID } = req.params;
     Users.findOneAndUpdate(
@@ -286,7 +286,7 @@ app.delete(
 // DELETE - Remove a user
 app.delete(
   '/users/:Username',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username } = req.params;
     Users.findOneAndRemove({ Username })
