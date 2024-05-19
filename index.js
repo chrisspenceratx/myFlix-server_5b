@@ -23,6 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const allowedOrigins = [
   'http://localhost:8080',
+  'http://localhost:4200/welcome',
+  'http://localhost:4200',
   'https://spencer-flix-c2b5a70a1e0d.herokuapp.com/',
   'http://localhost:1234',
   'mongodb://localhost:27017/myflixfinderdb',
