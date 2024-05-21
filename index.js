@@ -228,7 +228,7 @@ app.get(
           res.status(400).send(req.params.Username + ' was not found.');
           res.status(400).send('User with id ' + req.params.id + ' was not found.');
         } else {
-          res.status(200).send(user.Username + ' was deleted.');
+          res.status(200).send(user);
         }
       })
       .catch((err) => {
