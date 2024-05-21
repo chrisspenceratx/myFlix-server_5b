@@ -24,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:4200/welcome',
+  'https://chrisspenceratx.github.io/myFlix-client-Angular/welcome/',
+  'https://chrisspenceratx.github.io/myFlix-client-Angular/',
   'http://localhost:4200',
   'https://spencer-flix-c2b5a70a1e0d.herokuapp.com/',
   'http://localhost:1234',
