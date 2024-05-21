@@ -211,6 +211,33 @@ app.get(
   Email: String, (required)
   Birthday: Date
 }*/
+// GET One User by ID
+// DELETE User
+app.get(
+  '/users/:id', 
+  passport.authenticate('jwt', { session: false }), 
+  async (req, res) => {
+   // CONDITION TO CHECK USER AUTHORIZATION
+  //  if(req.user.Username !== req.params.Username){
+  //   return res.status(400).send('Permission denied');
+  //   }
+    // CONDITION ENDS
+    await Users.findOne({ _id: req.params.id })
+      .then((user) => {
+        if (!user) {
+          res.status(400).send(req.params.Username + ' was not found.');
+          res.status(400).send('User with id ' + req.params.id + ' was not found.');
+        } else {
+          res.status(200).send(user.Username + ' was deleted.');
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  }
+);
+
 app.put(
   '/users/:Username',
   [
