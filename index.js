@@ -24,10 +24,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:4200/welcome',
-  'https://chrisspenceratx.github.io/myFlix-client-Angular/welcome/',
-  'https://chrisspenceratx.github.io/myFlix-client-Angular/',
   'http://localhost:4200',
-  'https://spencer-flix-c2b5a70a1e0d.herokuapp.com/',
+  'https://chrisspenceratx.github.io/myFlix-client-Angular/welcome',
+  'https://chrisspenceratx.github.io/myFlix-client-Angular',
+  'https://spencer-flix-c2b5a70a1e0d.herokuapp.com',
   'http://localhost:1234',
   'mongodb://localhost:27017/myflixfinderdb',
   'mongodb://localhost:27017',
@@ -213,34 +213,6 @@ app.get(
   Email: String, (required)
   Birthday: Date
 }*/
-// GET One User by ID
-// DELETE User
-app.get(
-  '/users/:id', 
-  passport.authenticate('jwt', { session: false }), 
-  async (req, res) => {
-   // CONDITION TO CHECK USER AUTHORIZATION
-  //  if(req.user.Username !== req.params.Username){
-  //   return res.status(400).send('Permission denied');
-  //   }
-    // CONDITION ENDS
-    await Users.findOne({ _id: req.params.id })
-      .then((user) => {
-        if (!user) {
-          res.status(400).send(req.params.Username + ' was not found.');
-          res.status(400).send('User with id ' + req.params.id + ' was not found.');
-        } else {
-          res.status(200).send(user);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      });
-  }
-);
-
-
 app.put(
   '/users/:Username',
   [
