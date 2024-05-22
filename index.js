@@ -211,7 +211,7 @@ app.get(
 // DELETE User
 app.get(
   '/users/:id', 
-  passport.authenticate('jwt', { session: false }), 
+  // passport.authenticate('jwt', { session: false }), 
   async (req, res) => {
    // CONDITION TO CHECK USER AUTHORIZATION
   //  if(req.user.Username !== req.params.Username){
