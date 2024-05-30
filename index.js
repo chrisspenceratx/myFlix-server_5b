@@ -28,6 +28,7 @@ const allowedOrigins = [
   'http://localhost:4200',
   'https://chrisspenceratx.github.io/myFlix-client-Angular/welcome',
   'https://chrisspenceratx.github.io/myFlix-client-Angular',
+  'https://chrisspenceratx.github.io',
   'https://spencer-flix-c2b5a70a1e0d.herokuapp.com',
   'http://localhost:1234',
   'mongodb://localhost:27017/myflixfinderdb',
