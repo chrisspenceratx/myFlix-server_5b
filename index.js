@@ -62,7 +62,7 @@ app.get(
   '/movies',
   // Now taking the comment away and making active for 3.55 //
   // Temporarily comment out jwt authorization for 3.4.  Now I did it with 2nd branch//
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => res.status(200).json(movies))
@@ -75,7 +75,7 @@ app.get(
 // READ - with given title, returns a movie. //
 app.get(
   '/movies/:Title',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Title } = req.params;
     Movies.findOne({ Title })
@@ -95,7 +95,7 @@ app.get(
 // READ - Returns director information. //
 app.get(
   '/movies/director/:Name',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
     Movies.findOne({ 'Director.Name': Name })
@@ -115,7 +115,7 @@ app.get(
 // READ - Returns genre information. //
 app.get(
   '/movies/genre/:Name',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Name } = req.params;
     Movies.findOne({ 'Genre.Name': Name })
@@ -184,7 +184,7 @@ app.post(
 // GET - Get all users
 app.get(
   '/users',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.find()
       .then((users) => res.status(201).json(users))
@@ -197,7 +197,7 @@ app.get(
 // GET - Get a user by Username
 app.get(
   '/users/:Username',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOne({ Username: req.params.Username })
       .then((user) => res.status(200).json(user))
@@ -212,7 +212,7 @@ app.get(
 // DELETE User
 app.get(
   '/users/:id', 
-  // passport.authenticate('jwt', { session: false }), 
+  passport.authenticate('jwt', { session: false }), 
   async (req, res) => {
    // CONDITION TO CHECK USER AUTHORIZATION
   //  if(req.user.Username !== req.params.Username){
@@ -253,7 +253,7 @@ app.put(
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     // check the validation object if any errors //
     const errors = validationResult(req);
@@ -283,7 +283,7 @@ app.put(
 // CREATE - Add a new movie to user's favorites
 app.post(
   '/users/:Username/movies/:MovieID',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username, MovieID } = req.params;
     Users.findOneAndUpdate(
@@ -301,7 +301,7 @@ app.post(
 // DELETE - Remove a movie from favorites from given user //
 app.delete(
   '/users/:Username/movies/:MovieID',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username, MovieID } = req.params;
     Users.findOneAndUpdate(
@@ -319,7 +319,7 @@ app.delete(
 // DELETE - Remove a user
 app.delete(
   '/users/:Username',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const { Username } = req.params;
     Users.findOneAndRemove({ Username })
